@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practical_13/ui/receiver_chat_screen.dart';
+import 'package:flutter_practical_13/ui/sender_chat_screen.dart';
+import 'package:flutter_practical_13/ui/styles/theme_data.dart';
+import 'package:provider/provider.dart';
+import 'data/repositories/chat_provider.dart';
+
+final Color primaryColor = Colors.green[200]!;
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => MessageProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -10,31 +22,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      theme: lightTheme,
+      home: const MainScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MainScreenState extends State<MainScreen> {
+  int _currentIndex = 0; // Track the current selected tab
 
-  void _incrementCounter() {
+  // List of screens (Sender and Receiver)
+  final List<Widget> _screens = const [
+    SenderScreen(),
+    ReceiverScreen(),
+  ];
+
+  // Handle tab change
+  void _onTabTapped(int index) {
     setState(() {
-      _counter++;
+      _currentIndex = index;
     });
   }
 
@@ -42,27 +55,24 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: const Text('Chatter Ji'),
+        backgroundColor: primaryColor,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: _screens[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: _onTabTapped,
+        backgroundColor: primaryColor,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(_currentIndex == 0 ? Icons.person : Icons.person_2_outlined, color: _currentIndex == 0 ? Colors.green[900] : Colors.grey,),
+            label: 'Sender',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(_currentIndex == 1 ? Icons.person : Icons.person_2_outlined, color: _currentIndex == 1 ? Colors.green[900] : Colors.grey,),
+            label: 'Receiver',
+          ),
+        ],
       ),
     );
   }
