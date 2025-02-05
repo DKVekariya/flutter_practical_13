@@ -1,5 +1,5 @@
 import 'package:flutter_practical_13/data/models/user.dart';
-import 'message.dart';
+import '../models/message.dart';
 
 class ChatModel {
   final User sender;

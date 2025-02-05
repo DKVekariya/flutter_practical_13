@@ -3,7 +3,7 @@ import 'package:flutter_practical_13/ui/receiver_chat_screen.dart';
 import 'package:flutter_practical_13/ui/sender_chat_screen.dart';
 import 'package:flutter_practical_13/ui/styles/theme_data.dart';
 import 'package:provider/provider.dart';
-import 'data/repositories/chat_provider.dart';
+import 'ui/chat_provider.dart';
 
 final Color primaryColor = Colors.green[200]!;
 

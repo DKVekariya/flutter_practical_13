@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/chat_model.dart';
-import '../models/user.dart';
+import '../data/repositories/chat_model.dart';
+import '../data/models/user.dart';
 
 
 class MessageProvider extends ChangeNotifier {
